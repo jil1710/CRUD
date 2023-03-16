@@ -60,16 +60,25 @@ function showProduct() {
         <td><div style='width:100px;height:100px;display:flex;align-items:center;'><img id='product-img' style='max-width:100%;max-height:100%;' src='${ele.pimg}'/></div></td>
         <td>${ele.price}</td>
         <td>${ele.desc}</td>
-        <td><button style='padding:10px;color:#0086AE;cursor:pointer;background-color:#B2EDFF;outline:none;border:none' onclick='updateProduct(${index})'><i class='fa fa-pen-to-square'></i></button></td>
-        <td><button style='padding:10px;color:red;cursor:pointer;background-color:#FFDCD9;outline:none;border:none' onclick='deleteProduct(${index})'><i class='fa fa-trash'></i></button></td>`
+        <td><button style='padding:10px;color:#0086AE;cursor:pointer;background-color:#B2EDFF;outline:none;border:none' onclick='updateProduct(${ele.pid})'><i class='fa fa-pen-to-square'></i></button></td>
+        <td><button style='padding:10px;color:red;cursor:pointer;background-color:#FFDCD9;outline:none;border:none' onclick='deleteProduct(${ele.pid})'><i class='fa fa-trash'></i></button></td>`
     });
 
     document.getElementById('product-list').innerHTML = data.length ? data : `<tr style='text-align:center'><td colspan='8'><div style='display:flex;justify-content:center;align-items:center'><img width='60px' height='60px' src='https://cdn-icons-png.flaticon.com/512/9841/9841553.png'/><span style='font-size:20px;margin-left:14px'>There is no product!</span></td></tr>`
 }
 showProduct()
 
-// filter the product
-$('#search').keyup(function (e) {
+function debounce(func,timer=800){
+    let time;
+    return function(...args){
+        clearTimeout(time)
+        time = setTimeout(()=>{
+            func.apply(this,args)
+        },timer)
+    }
+}
+
+function filerProduct(){
     var productList;
     if (localStorage.getItem("product") === null) {
         productList = []
@@ -77,8 +86,7 @@ $('#search').keyup(function (e) {
     else {
         productList = JSON.parse(localStorage.getItem("product"))
     }
-
-    var res = productList.filter(ele => ele.pname.toLowerCase().includes(e.target.value.toLowerCase()) || ele.pid.includes(e.target.value))
+    var res = productList.filter(ele => ele.pname.toLowerCase().includes(this.value.toLowerCase()) || ele.pid.includes(this.value))
     var data = ""
     res.forEach((ele, index) => {
         data += `<tr style='transition:all 1s;background-color: #2E4053;'><td>${index + 1})</td><td>${ele.pid}</td>
@@ -86,15 +94,18 @@ $('#search').keyup(function (e) {
         <td><div style='width:100px;height:100px;display:flex;align-items:center;'><img id='product-img' style='max-width:100%;max-height:100%;' src='${ele.pimg}'/></div></td>
         <td>${ele.price}</td>
         <td>${ele.desc}</td>
-        <td><button style='padding:10px;color:#0086AE;cursor:pointer;background-color:#B2EDFF;outline:none;border:none' onclick='updateProduct(${index})'><i class='fa fa-pen-to-square'></i></button></td>
-        <td><button style='padding:10px;color:red;cursor:pointer;background-color:#FFDCD9;outline:none;border:none' onclick='deleteProduct(${index})'><i class='fa fa-trash'></i></button></td>`
+        <td><button style='padding:10px;color:#0086AE;cursor:pointer;background-color:#B2EDFF;outline:none;border:none' onclick='updateProduct(${ele.pid})'><i class='fa fa-pen-to-square'></i></button></td>
+        <td><button style='padding:10px;color:red;cursor:pointer;background-color:#FFDCD9;outline:none;border:none' onclick='deleteProduct(${ele.pid})'><i class='fa fa-trash'></i></button></td>`
     });
 
     document.getElementById('product-list').innerHTML = data.length ? data : `<tr style='text-align:center'><td colspan='8'><div style='display:flex;justify-content:center;align-items:center'><img width='60px' height='60px' src='https://cdn-icons-png.flaticon.com/512/9841/9841553.png'/><span style='font-size:20px;margin-left:14px'>There is no product!</span></td></tr>`
-})
+}
+
+// filter the product
+$('#search').keyup(debounce(filerProduct))
 
 // update particular product from the list of products
-function updateProduct(index) {
+function updateProduct(productid) {
     $("#ex1").modal({
         fadeDuration: 500,
         fadeDelay: 0.50,
@@ -108,7 +119,7 @@ function updateProduct(index) {
     else {
         productList = JSON.parse(localStorage.getItem("product"))
     }
-
+    let index = productList.findIndex(item=> item.pid==productid )
     pid.value = productList[index].pid
     pname.value = productList[index].pname
     price.value = productList[index].price
@@ -137,7 +148,7 @@ function updateProduct(index) {
 }
 
 // delete particular product from the list of products
-function deleteProduct(index) {
+function deleteProduct(productid) {
 
     var productList;
     if (localStorage.getItem("product") === null) {
@@ -146,12 +157,17 @@ function deleteProduct(index) {
     else {
         productList = JSON.parse(localStorage.getItem("product"))
     }
+    let index = productList.findIndex(item=> item.pid==productid )
+    var confirm = window.confirm(`Are you sure want to delete ${productList[index].pname} ?`)
 
+    if(confirm){
+        productList.splice(index, 1)
+        console.log(productList);
+        localStorage.setItem('product', JSON.stringify(productList))
+        showProduct()
 
-    productList.splice(index, 1)
-    console.log(productList);
-    localStorage.setItem('product', JSON.stringify(productList))
-    showProduct()
+    }
+
 }
 
 // show data on web page that's store in local storage
@@ -181,8 +197,8 @@ $('#sort').change(function (e) {
         <td><div style='width:100px;height:100px;display:flex;align-items:center;'><img id='product-img' style='max-width:100%;max-height:100%;' src='${ele.pimg}'/></div></td>
         <td>${ele.price}</td>
         <td>${ele.desc}</td>
-        <td><button style='padding:10px;color:#0086AE;cursor:pointer;background-color:#B2EDFF;outline:none;border:none' onclick='updateProduct(${index})'><i class='fa fa-pen-to-square'></i></button></td>
-        <td><button style='padding:10px;color:red;cursor:pointer;background-color:#FFDCD9;outline:none;border:none' onclick='deleteProduct(${index})'><i class='fa fa-trash'></i></button></td>`
+        <td><button style='padding:10px;color:#0086AE;cursor:pointer;background-color:#B2EDFF;outline:none;border:none' onclick='updateProduct(${ele.pid})'><i class='fa fa-pen-to-square'></i></button></td>
+        <td><button style='padding:10px;color:red;cursor:pointer;background-color:#FFDCD9;outline:none;border:none' onclick='deleteProduct(${ele.pid})'><i class='fa fa-trash'></i></button></td>`
     });
 
     document.getElementById('product-list').innerHTML = data.length ? data : `<tr style='text-align:center'><td colspan='8'><div style='display:flex;justify-content:center;align-items:center'><img width='60px' height='60px' src='https://cdn-icons-png.flaticon.com/512/9841/9841553.png'/><span style='font-size:20px;margin-left:14px'>There is no product!</span></td></tr>`
@@ -250,8 +266,8 @@ slider.oninput = function () {
         <td><div style='width:100px;height:100px;display:flex;align-items:center;'><img id='product-img' style='max-width:100%;max-height:100%;' src='${ele.pimg}'/></div></td>
         <td>${ele.price}</td>
         <td>${ele.desc}</td>
-        <td><button style='padding:10px;color:#0086AE;cursor:pointer;background-color:#B2EDFF;outline:none;border:none' onclick='updateProduct(${index})'><i class='fa fa-pen-to-square'></i></button></td>
-        <td><button style='padding:10px;color:red;cursor:pointer;background-color:#FFDCD9;outline:none;border:none' onclick='deleteProduct(${index})'><i class='fa fa-trash'></i></button></td>`
+        <td><button style='padding:10px;color:#0086AE;cursor:pointer;background-color:#B2EDFF;outline:none;border:none' onclick='updateProduct(${ele.pid})'><i class='fa fa-pen-to-square'></i></button></td>
+        <td><button style='padding:10px;color:red;cursor:pointer;background-color:#FFDCD9;outline:none;border:none' onclick='deleteProduct(${ele.pid})'><i class='fa fa-trash'></i></button></td>`
     });
 
     document.getElementById('product-list').innerHTML = data.length ? data : `<tr style='text-align:center'><td colspan='8'><div style='display:flex;justify-content:center;align-items:center'><img width='60px' height='60px' src='https://cdn-icons-png.flaticon.com/512/9841/9841553.png'/><span style='font-size:20px;margin-left:14px'>There is no product!</span></td></tr>`
