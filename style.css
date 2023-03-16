@@ -1,0 +1,316 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap');
+
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html{
+    scroll-behavior: smooth;
+}
+body{
+    font-family: 'Poppins', sans-serif;
+    
+}
+
+.container{
+    width: 100%;
+    height: 70px;
+    padding: 8px;
+    background-color: rgba(0, 0, 0);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.container .nav{
+    width: 90%;
+}
+.container .nav .wrap{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.tabs .bars{
+    display: none;
+}
+.logo{
+    color: white;
+}
+.container .nav .wrap .tabs ul{
+    align-items: center;
+    list-style: none;
+    cursor: pointer;
+}
+.container #search{
+    width: 600px;
+    height: 40px;
+    padding: 10px;
+    border-radius: 6px;
+    outline: none;
+    border: none;
+}
+.__tabs {
+    position: absolute;
+    width: 300px;
+    top: 72px;
+    margin-bottom: 0;
+    padding: 0;
+    height: 0;
+    transition: height .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+    right: 0.2rem;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, 0.849);
+    border-radius: 4px;
+    z-index: 10000;
+    backdrop-filter: blur(15px);
+    box-shadow: 1px 1px 9px -1px rgb(10, 10, 10);
+}
+
+.__tabs li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    display: block;
+    text-align: center;
+    font-weight: 500;
+    cursor: pointer;
+}
+.container .nav .wrap .tabs ul li{
+    position: relative;
+
+}
+.container .__tabs li{
+    position: relative;
+    
+}
+.container .nav .wrap .tabs ul li:not(:last-child)::before{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    transform: scaleX(0);
+    left: 0;
+    width: 100%;
+    height: 2px;
+    transform-origin: bottom right;
+    border-radius: 4px;
+    background: rgb(201, 200, 199);
+    transition: transform 0.5s ease-in-out;
+}
+.container .__tabs li:not(:last-child)::before{
+    content: '';
+    position: absolute;
+    bottom: 0;
+    transform: scaleX(0);
+    left: 0;
+    width: 100%;
+    height: 2px;
+    transform-origin: bottom right;
+    border-radius: 4px;
+    background: rgb(201, 200, 199);
+    transition: transform 0.5s ease-in-out;
+}
+.container .nav .wrap .tabs ul li:not(:last-child):hover::before{
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+.container .__tabs li:not(:last-child):hover::before{
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+.toggle {
+    /* background-color: #efefef; */
+    height: 30px;
+    width: 60px;
+    border-radius: 50px;
+    border: 0;
+    outline: 0;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background 0.5s;
+}
+.toggle span {
+    display: block;
+    width: 26px;
+    height: 26px;
+    background-color: rgba(13, 14, 14, 0.89);
+    border-radius: 50%;
+    margin-left: 2px;
+    transition: background 0.5s, margin-left 0.5s;
+}
+.active{
+    background-color: green;
+}
+.active span{
+    background-color: white;
+    margin-left: 31px;
+}
+
+.main{
+    width: 90%;
+    padding: 40px 0px 0px 0px;
+    margin-inline: auto;
+}
+.main .add button{
+    width: 150px;
+    height: 50px;
+    padding: 10px;
+    text-align: center;
+    outline: none;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-size: 20px;
+    background-color: black;
+    cursor: pointer;
+}
+.product div{
+    margin: 20px 0;
+}
+.product input{
+    width: 100%;
+    height: 40px;
+    padding: 8px;
+    outline: none;
+    border: none;
+    border-radius: 6px;
+    box-shadow: 0px 0px 6px -1px rgb(187, 187, 187);
+}
+.product textarea{
+    width: 100%;
+    outline: none;
+    border: none;
+    padding: 10px;
+    box-shadow: 0px 0px 6px -1px rgb(187, 187, 187);
+}
+
+.product .generate{
+    outline: none;
+    border: none;
+    padding: 6px;
+    background-color: rgb(218, 49, 49);
+    color: white;
+    border-radius: 6px;
+    position: absolute;
+    top: 30px;
+    right: 10px;
+    cursor: pointer;
+    box-shadow: 0px 0px 6px -1px rgb(209, 35, 35);
+}
+label.error {
+    color: red;
+    font-size: 1rem;
+    display: block;
+    margin-top: 5px;
+}
+
+input.error {
+    border: 1px dashed red;
+    font-weight: 300;
+    color: red;
+}
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    width: 100%;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 5px -1px white;
+}
+.styled-table thead tr {
+    background-color: #1C2833;
+    color: #ffffff;
+    text-align: left;
+}
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+    color: white;
+}
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+    background-color: #2E4053;
+    max-width: 270px;
+    word-wrap: break-word;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #1C2833;
+}
+#product-img:hover{
+    transform: scale(1.5);
+    transition: transform .3s;
+    cursor: pointer;
+}
+#update{
+    display: none;
+}
+.select{
+    margin: 15px;
+    background-color: white;
+    color: black;
+    font-size: 16px;
+}
+.slidecontainer {
+    width: 60%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+.slider {
+    appearance: none;
+    width: 75%;
+    height: 15px;
+    border-radius: 5px;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    transition: .2s;
+    transition: opacity .2s;
+  }
+  
+  .slider:hover {
+    opacity: 1;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: black;
+    cursor: pointer;
+  }
+/* Media query for responsive of webpages */
+@media (max-width:999px) {
+    .__tabs.open {
+        height: 80px;
+    }
+    .container #search{
+        width: 100%;
+    }
+    .tabs ul {
+        display: none !important;
+    }
+    .tabs .bars {
+        display: block;
+    }
+}
+
+@media (max-width:500px) {
+    .__tabs {
+        left: 1rem;
+        right: 1rem;
+        width: unset;
+    }
+}
