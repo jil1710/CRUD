@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Management</title>
+
+    <!-- Font Awesome CDN link for using icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- import styling css -->
+    <link rel="stylesheet" href="style.css">
+    <!-- import product js script -->
+    <script src="product.js" defer></script>
+</head>
+
+<body>
+    <header class="container">
+        <div class="nav">
+            <div class="wrap">
+                <div class="logo">
+                    <h2>Product Management</h2>
+                </div>
+                <div class="tabs">
+                    <ul>
+                        <li><input type="text" id="search" placeholder="Search product..."><i class="fa fa-search"
+                                style="position: absolute;right: 20px;color: black;top: 12px;"></i></li>
+
+                    </ul>
+                    <div class="bars">
+                        <i class="fa fa-bars fa-2x"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <ul class="__tabs">
+            <li><input type="text" id="search" placeholder="Search product.."><i class="fa fa-search"
+                    style="position: absolute;right: 30px;color: black;top: 28px;"></i></li>
+        </ul>
+    </header>
+
+    <div class="main">
+        <div class="add">
+            <button id="fade"><i class="fa fa-plus" style="margin: 0 8px;"></i>Add</button>
+            <div style="display: flex;justify-content: center;align-items: center;width: 70%;float: right;">
+
+                <div class="slidecontainer">
+                    <p style="margin: 0 5px;width: 25%;">Price: <span style="font-size: 15px;font-weight: bold;" id="demo"></span></p>
+                    <input type="range" min="0" max="999999" value="0" class="slider" step="5" id="myRange">
+                </div>
+                <div style="display: flex;justify-content: center;align-items: center;">
+                    <label for="sort" style="font-size: 20px;font-weight: bold;margin: 10px 20px;">Sort :</label>
+                    <select
+                        style="height: 40px;background-color: #1C2833;color: white;outline: none;border: none;padding: 10px;border-radius: 6px;width: 200px;"
+                        name="sort" id="sort">
+                        <option class="select" selected disabled>Select</option>
+                        <option class="select" value="pid">Product Id.</option>
+                        <option class="select" value="pname">Product Name</option>
+                        <option class="select" value="price">Product Price</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal HTML embedded directly into document -->
+    <div id="ex1" class="modal">
+        <fieldset style="padding:30px; border:3px solid #1C2833; background:#f6f8ff;">
+            <legend style="font-size: 20px;color: #17202A;">Add Product Detail</legend>
+            <div class="product">
+                <div id="err" style="text-align: center;color: red;font-weight: bold;display: none;">All field are required!</div>
+                <form id="productForm">
+
+                    <div style="position: relative;">
+                        <label for="pid">Product ID. :</label><br>
+                        <input type="text" name="pid" id="pid" placeholder="Product Id." readonly required>
+                        <button class="generate" id="gen">Generate</button>
+                    </div>
+                    <div>
+                        <label for="pname">Product name :</label><br>
+                        <input type="text" name="pname" id="pname" placeholder="Product name" required minlength="5">
+
+                    </div>
+                    <div>
+                        <label for="price">Product price :</label><br>
+                        <input type="number" name="price" id="price" placeholder="Product price" required>
+
+                    </div>
+                    <div>
+                        <label for="desc">Product description :</label><br>
+                        <textarea name="desc" id="desc" cols="30" minlength="20" rows="10" required></textarea>
+                    </div>
+                    <div>
+                        <label for="pimg">Product image. :</label><br>
+                        <input type="file" name="pimg" id="pimg" required accept="image">
+
+                    </div>
+                    <div style="width: 100%;">
+                        <button type="submit" id="submit"
+                            style="background-color: #0a5163;color: white;width: 100%;cursor: pointer;;padding: 15px;outline: none;border: none;border-radius: 6px;height: 50px;">Add
+                            product</button>
+                        <button type="submit" id="update"
+                            style="background-color: #0a5163;color: white;width: 100%;cursor: pointer;;padding: 15px;outline: none;border: none;border-radius: 6px;height: 50px;">Update
+                            product</button>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+    </div>
+
+    <!-- Tavle to load data -->
+    <div style="overflow: auto;width: 90%;margin-inline: auto;border-radius: 10px;">
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Sr. No.</th>
+                    <th>Product ID</th>
+                    <th>Product Name</th>
+                    <th>Product Image</th>
+                    <th>Price</th>
+                    <th>Description</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody id="product-list">
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Remember to include jQuery :) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
+    <!-- jQuery Modal -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
+</body>
+
+</html>
